@@ -215,7 +215,7 @@ they installed node.
 
 ```
 
-# Dockerising NodeJS Project with Dockerfile
+# Dockerizing NodeJS Project with Dockerfile
 
 - Create an **index.js** file
 
@@ -269,7 +269,47 @@ The `docker run` command you provided is used to run a Docker container based on
 - --publish <my-machine-port>:<container-port>: It means that if your Flask application inside the container is listening on port <container-port>, you can access it from your host machine by connecting to localhost:<my-machine-port>.
 
 
-# Dockerising Python Project with Dockerfile
+# Dockerizing Github NodeJS Project with Dockerfile
+
+
+- Create a **DockerFile**
+
+- Write the instructions inside the Dockerfile 
+
+```
+FROM node
+
+WORKDIR /developer/nodejs/app_from_github
+
+RUN apt-get update && apt-get install -y git
+
+RUN git clone https://github.com/arijit69-web/Dockerizing-Github-Project.git .
+
+ENV PORT=3000
+
+RUN npm ci
+
+CMD ["node", "index.js"]
+```
+
+- In the command prompt, run the following command
+
+```bash
+
+$ docker build -t <image-name>:<image-version> .
+
+$ docker run -it --init --publish 3001:3000 <image-name>:<image-version>
+
+```
+
+The `docker run` command you provided is used to run a Docker container based on the  my-express-app:1.0.0 image with specific options. 
+
+- --init: The --init flag in Docker is used to initialize a minimal init system inside the container. This is often added to improve signal handling and process management within the container. It will help you to control the process inside your container from your host machine only. If you close the server from your host machine, it will close it inside the container.
+
+- --publish <my-machine-port>:<container-port>: It means that if your Flask application inside the container is listening on port <container-port>, you can access it from your host machine by connecting to localhost:<my-machine-port>.
+
+
+# Dockerizing Python Project with Dockerfile
 
 - Create an **app.py** file
 
@@ -322,3 +362,22 @@ The `docker run` command you provided is used to run a Docker container based on
 - --init: The --init flag in Docker is used to initialize a minimal init system inside the container. This is often added to improve signal handling and process management within the container. It will help you to control the process inside your container from your host machine only. If you close the server from your host machine, it will close it inside the container.
 
 - --publish <my-machine-port>:<container-port>: It means that if your Flask application inside the container is listening on port <container-port>, you can access it from your host machine by connecting to localhost:<my-machine-port>.
+
+# Bind Mount
+
+In Docker, a bind mount is a method to expose a file or directory on the host machine directly into a container. This allows the container to access and modify the files or directories on the host as if they were part of the container's own file system.
+
+When you use bind mounts, changes made to the files or directories inside the container are immediately reflected on the host, and vice versa. This makes bind mounts a powerful tool for development, as you can make changes to your code on the host machine and see the effects immediately within the running container.
+
+
+Here's how you typically use bind mounts in a docker run command:
+
+```bash
+$ docker run -it --init -p 3002:3000 -v <current-working-directory-of-host>:<container-path> <image-name>:<image-version>
+```
+
+eg.
+
+```bash
+$ docker run -it --init -p 3002:3000 -v "%cd%":/developer/nodejs/node-bind-mount-project/ app-bind-mount-node:latest
+```
