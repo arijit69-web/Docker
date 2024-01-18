@@ -528,3 +528,23 @@ $ docker compose up -d
 ```bash
 $ docker compose down
 ```
+
+# Pushing images to DockerHub
+
+- Login to Docker Hub
+
+```bash
+$ docker login
+```
+
+- Tag your Docker image
+
+```bash
+$ docker tag <image-name> <your-docker-account-username><image-name>
+```
+
+- Push the Docker image
+
+```bash
+$ docker push <your-docker-account-username><image-name>
+```
