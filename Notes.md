@@ -471,3 +471,60 @@ The --network option in the docker run command is used to specify the network to
 
 
  - --network microservice-network: This specifies that the container should be connected to the network named microservice-network. The network must already exist before you run the container. Docker allows you to create custom networks to facilitate communication between containers. Containers on the same network can communicate with each other using their container names or IP addresses.
+
+
+# Docker Compose
+
+Docker Compose is a tool for defining and running multi-container Docker applications. It allows you to define all the services, networks, and volumes in a single file, commonly named docker-compose.yml. This file can then be used to deploy and manage the entire application stack with a single command.
+
+`YML File` is a configuration file.
+
+- Create a `docker-compose.yml` file
+
+
+```yml
+version: "3"
+networks:
+  micro-net:
+    driver: bridge
+volumes:
+  api-gateway-node-modules:
+  flights_service-node-modules:
+services:
+  api_gateway:
+    build: ./Authentication and Authorization API Gateway
+    networks:
+      - micro-net
+    ports: 
+      - "5000:5000"
+    volumes: 
+      - ./Authentication and Authorization API Gateway:/developer/nodejs/api-gateway
+      - api-gateway-node-modules:/developer/nodejs/api-gateway/node_modules
+  python_service:
+    build: ./Python_Project
+    networks:
+      - micro-net
+    ports: 
+      - "3005:3005"
+  flights_service:
+    build: ./Flights Service
+    networks:
+      - micro-net
+    ports: 
+      - "3000:3000"
+    volumes:
+      - ./Flights Service:/developer/nodejs/flights_service
+      - flights_service-node-modules:/developer/nodejs/flights-service/node_modules
+
+```
+
+- docker-compose: This is the command-line tool for managing multi-container Docker applications with Compose. The `up` sub-command is used to start the defined services. It creates and starts containers for all the services listed in the docker-compose.yml file. The `-d` flag stands for `detached` mode. When you run Docker Compose in detached mode, the containers run in the background, and you get your command prompt back immediately. 
+
+```bash
+$ docker compose up -d
+```
+- The docker-compose down command is used to stop and remove the containers, networks, and volumes defined in the docker-compose.yml file. This command essentially reverses the process of starting the services with docker-compose up.
+
+```bash
+$ docker compose down
+```

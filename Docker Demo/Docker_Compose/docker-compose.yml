@@ -1,0 +1,32 @@
+version: "3"
+networks:
+  micro-net:
+    driver: bridge
+volumes:
+  api-gateway-node-modules:
+  flights_service-node-modules:
+services:
+  api_gateway:
+    build: ./Authentication and Authorization API Gateway
+    networks:
+      - micro-net
+    ports: 
+      - "5000:5000"
+    volumes: 
+      - ./Authentication and Authorization API Gateway:/developer/nodejs/api-gateway
+      - api-gateway-node-modules:/developer/nodejs/api-gateway/node_modules
+  python_service:
+    build: ./Python_Project
+    networks:
+      - micro-net
+    ports: 
+      - "3005:3005"
+  flights_service:
+    build: ./Flights Service
+    networks:
+      - micro-net
+    ports: 
+      - "3000:3000"
+    volumes:
+      - ./Flights Service:/developer/nodejs/flights_service
+      - flights_service-node-modules:/developer/nodejs/flights-service/node_modules
