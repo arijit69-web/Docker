@@ -463,7 +463,7 @@ eg.
 ```bash
 $ docker run -it --init --name flightsService --network microservice-network -p 3000:3000 -v "%cd%":/developer/nodejs/flights-service -v flights-service-node-modules:/developer/nodejs/flights-service/node_modules flights-service:latest
 
-$  docker run -it --init --name apiGateway --network microservice-network -p 5000:5000 -v "%cd%":/developer/nodejs/api-gateway -v api-gateway-node-modules:/developer/nodejs/api-gateway/node_modules api-gateway:latest
+$ docker run -it --init --name apiGateway --network microservice-network -p 5000:5000 -v "%cd%":/developer/nodejs/api-gateway -v api-gateway-node-modules:/developer/nodejs/api-gateway/node_modules api-gateway:latest
 
 $ docker run -it --init --name pythonService --network microservice-network -p 3005:3005 -v "%cd%":/developer/pythonproject/flask-app python-app:latest
 ```
